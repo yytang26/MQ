@@ -1,4 +1,4 @@
-package com.tyy.mq.demo1.util;
+package com.tyy.mq.util;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

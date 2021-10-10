@@ -1,7 +1,7 @@
 package com.tyy.mq.demo1;
 
 import com.rabbitmq.client.*;
-import com.tyy.mq.demo1.util.RabbitMqUtil;
+import com.tyy.mq.util.RabbitMqUtil;
 
 /**
  * @author:tyy
@@ -12,7 +12,7 @@ public class Consumer {
     private final static String QUEUE_NAME = "hello";
 
     public static void main(String[] args) throws Exception {
-        Channel channel = RabbitMqUtil.getChannel("", "", "");
+        Channel channel = RabbitMqUtil.getChannel("127.0.0.1", "tyy", "123");
         System.out.println("等待接收消息 ......... ");
         //推送的消息如何进行消费的接口回调
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
