@@ -86,5 +86,24 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(queueC).to(xExchange).with("XC");
     }
 
+    @Bean
+    public Queue delayedQueue() {
+        return new Queue("delayedQueue");
+    }
 
+    //自定义交换机 我们在这里定义的是一个延迟交换机
+    @Bean
+    public CustomExchange delayedExchange() {
+        Map<String, Object> args = new HashMap<>();
+        //自定义交换机的类型
+        //固定的，声明该交换机是一个死信交换机
+        args.put("x-delayed-type", "direct");
+        return new CustomExchange("delayExchange", "x-delayed-message", true, false, args);
+    }
+
+    @Bean
+    public Binding bindingDelayedQueue(@Qualifier("delayedQueue") Queue queue, @Qualifier("delayedExchange") CustomExchange delayedExchange) {
+        return BindingBuilder.bind(queue).to(delayedExchange).with("delayedRoutingKey").noargs();
+
+    }
 }

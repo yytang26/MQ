@@ -33,6 +33,15 @@ public class SendMsgController {
             correlationData.getMessageProperties().setExpiration(ttlTime);
             return correlationData;
         });
-      //  log.info("当前时间：{},发送一条时长{}毫秒 TTL 信息给队列 C:{}", new Date(), ttlTime, message);
+        //  log.info("当前时间：{},发送一条时长{}毫秒 TTL 信息给队列 C:{}", new Date(), ttlTime, message);
+    }
+
+
+    @GetMapping("sendDelayMsg/{message}/{delayTime}")
+    public void sendMsg(@PathVariable String message, @PathVariable Integer delayTime) {
+        rabbitTemplate.convertAndSend("delayExchange", "delayedRoutingKey", message, correlationData -> {
+            correlationData.getMessageProperties().setDelay(delayTime);
+            return correlationData;
+        });
     }
 }
