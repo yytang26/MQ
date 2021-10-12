@@ -67,4 +67,24 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(queueD).to(exChangeX).with("YD");
     }
 
+
+    //声明队列 C 死信交换机
+    @Bean("queueC")
+    public Queue queueC() {
+        Map<String, Object> args = new HashMap<>(4);
+        //声明当前队列绑定的死信交换机
+        args.put("x-dead-letter-exchange", "Y");
+        //声明当前队列的死信路由
+        args.put("x-dead-letter-routing-key", "YD");
+        //没有声明 TTL 属性
+        return QueueBuilder.durable("queueC").withArguments(args).build();
+    }
+
+    //声明队列 B 绑定 X 交换机
+    @Bean
+    public Binding queueCBindingX(@Qualifier("queueC") Queue queueC, @Qualifier("exChangeX") DirectExchange xExchange) {
+        return BindingBuilder.bind(queueC).to(xExchange).with("XC");
+    }
+
+
 }
