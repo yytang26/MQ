@@ -28,6 +28,8 @@ public class Producer {
     @PostConstruct
     public void init() {
         rabbitTemplate.setConfirmCallback(myCallBack);
+        rabbitTemplate.setMandatory(true);
+        rabbitTemplate.setReturnCallback(myCallBack);
     }
 
     @GetMapping("sendMessage/{message}")
